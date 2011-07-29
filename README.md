@@ -3,7 +3,7 @@ BinaryRatchet
 
 Simple class to allow you to read bits and bytes from a hex ascii string. See test.php for example usage.
 
-Useage
+Usage
 ------
 
       require_once('binary_ratchet.php');

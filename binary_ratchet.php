@@ -9,9 +9,9 @@ class BinaryRatchet {
   }
 
   public function jump($position) {
-    $current_position = $position * 2;
-    $left_over = 0;
-    $left_over_bit_count = 0;
+    $this->current_position = $position * 2;
+    $this->left_over = 0;
+    $this->left_over_bit_count = 0;
   }
 
   public function round_to_multiple($x, $multiple) {
@@ -20,8 +20,12 @@ class BinaryRatchet {
 
   public function read($bits) {
     print "\nCurrent position: " . $this->current_position . "\n";
-    // Count number of bytes to read, read them
+    // Count number of bytes to read
     $bytes_needed = $this->round_to_multiple($bits - $this->left_over_bit_count, 8) / 8;
+    // Make sure they're avaliable
+    if (($bytes_needed * 2 + $current_position) > strlen($this->ascii_hex))
+      throw new Exception('BinaryRatchet: read over end of ascii hex.');
+    // If so read them
     print("Bit count: " . $bits . "\n");
     print("Bytes needed: " . $bytes_needed . "\n");
     $ascii = substr($this->ascii_hex,
