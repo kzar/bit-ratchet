@@ -23,7 +23,7 @@ class BinaryRatchet {
     $bits_needed = $this->round_to_multiple($bits - $this->left_over_bit_count, 8);
     $bytes_needed = $bits_needed / 8;
     // Make sure they're avaliable
-    if (($bytes_needed * 2 + $current_position) > strlen($this->ascii_hex))
+    if (($bytes_needed * 2 + $this->current_position) > strlen($this->ascii_hex))
       throw new Exception('BinaryRatchet: read over end of ascii hex.');
     // If so read them
     $ascii = substr($this->ascii_hex,

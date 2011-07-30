@@ -10,3 +10,5 @@ Usage
       $br = new BinaryRatchet("FF00FF");
       print "FF is " . $br->read(8) . "\n";
       print "00 is " . $br->read(8) . "\n";
+      print "F is " . $br->read(4) . "\n";
+      print "F is " . $br->read(4) . "\n";
