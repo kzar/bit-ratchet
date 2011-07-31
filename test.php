@@ -1,8 +1,8 @@
 <?php
-require_once('binary_ratchet.php');
+require_once('bit_ratchet.php');
 
 $hex = "ca509d936b0100004a21";
-$br = new BinaryRatchet($hex);
+$br = new BitRatchet($hex);
 
 // Test we can read first 8 bits
 assert('$br->read(8) == 0xCA;');

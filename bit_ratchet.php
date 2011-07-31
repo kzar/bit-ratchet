@@ -1,5 +1,5 @@
 <?php
-class BinaryRatchet {
+class BitRatchet {
   private $current_position, $ascii_hex;
   private $left_over, $left_over_bit_count;
 
@@ -24,7 +24,7 @@ class BinaryRatchet {
     $bytes_needed = $bits_needed / 8;
     // Make sure they're avaliable
     if (($bytes_needed * 2 + $this->current_position) > strlen($this->ascii_hex))
-      throw new Exception('BinaryRatchet: read over end of ascii hex.');
+      throw new Exception('BitRatchet: read over end of ascii hex.');
     // If so read them
     $ascii = substr($this->ascii_hex,
                     $this->current_position, $bytes_needed * 2);
