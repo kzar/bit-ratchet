@@ -4,7 +4,7 @@ class BitRatchet {
   private $left_over, $left_over_bit_count;
 
   function __construct($ascii) {
-    $this->ascii_hex = $ascii;
+    $this->ascii_hex = strtoupper($ascii);
     $this->current_position = 0;
   }
 
@@ -49,6 +49,18 @@ class BitRatchet {
     $this->current_position += $bytes_needed * 2;
     // Phew, now return what we've read!
     return $binary;
+  }
+
+  public function read_ascii($bytes) {
+    // Make sure they're avaliable
+    if (($bytes * 2 + $this->current_position) > strlen($this->ascii_hex))
+      throw new Exception('BitRatchet: read over end of ascii hex.');
+    // If so read them
+    $ascii = substr($this->ascii_hex, $this->current_position, $bytes * 2);
+    // Increment our position
+    $this->current_position += $bytes_needed * 2;
+    // Finally return ascii hex
+    return $ascii;
   }
 }
 ?>
