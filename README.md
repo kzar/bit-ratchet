@@ -14,6 +14,12 @@ Usage
       print "00 is " . $br->read(8) . "\n";
       print "F is " . $br->read(4) . "\n";
       print "F is " . $br->read(4) . "\n";
+      // Jump back to the start
+      $br->jump(0);
+      // Read FF as a signed number
+      print "FF is -127: " . $br->read_signed(8) . "\n";
+      // Print the last two bytes as hex
+      print($br->read_ascii(2));
 
 Licence
 -------

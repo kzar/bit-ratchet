@@ -1,7 +1,7 @@
 <?php
 require_once('bit_ratchet.php');
 
-$hex = "ca509d936b0100004a21";
+$hex = "ca509d936b0100004a21F1";
 $br = new BitRatchet($hex);
 
 // Test we can read first 8 bits
@@ -32,4 +32,12 @@ assert('$br->read(5) == 0x1;');
 $br->jump(1);
 // Make sure we're in the right place
 assert('$br->read(8) == 0x50');
+// Read 5 bytes as hex
+assert('$br->read_ascii(5) == "9D936B0100";');
+// Read next byte, make sure it's right
+assert('$br->read(8) == 0x00;');
+// Check we can read signed numbers
+$br->jump(9);
+assert('$br->read_signed(8) == 33;');
+assert('$br->read_signed(8) == -113;');
 ?>

@@ -56,7 +56,7 @@ class BitRatchet {
     $unsigned = $this->read($bits);
     // Sign it
     if ($unsigned >= (pow(2, $bits) / 2))
-      $signed = $unsigned * -1;
+      $signed = -1 * $unsigned + 128;
     else
       $signed = $unsigned;
     // and return
