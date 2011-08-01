@@ -51,6 +51,18 @@ class BitRatchet {
     return $binary;
   }
 
+  public function read_signed($bits) {
+    // Read the bits
+    $unsigned = $this->read($bits);
+    // Sign it
+    if ($unsigned >= (pow(2, $bits) / 2))
+      $signed = $unsigned * -1;
+    else
+      $signed = $unsigned;
+    // and return
+    return $signed;
+  }
+
   public function read_ascii($bytes) {
     // Make sure they're avaliable
     if (($bytes * 2 + $this->current_position) > strlen($this->ascii_hex))
