@@ -58,7 +58,7 @@ class BitRatchet {
     // If so read them
     $ascii = substr($this->ascii_hex, $this->current_position, $bytes * 2);
     // Increment our position
-    $this->current_position += $bytes_needed * 2;
+    $this->current_position += $bytes * 2;
     // Finally return ascii hex
     return $ascii;
   }
