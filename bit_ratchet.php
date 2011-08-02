@@ -6,6 +6,8 @@ class BitRatchet {
   function __construct($ascii) {
     $this->ascii_hex = strtoupper($ascii);
     $this->current_position = 0;
+    $this->left_over_bit_count = 0;
+    $this->left_over = 0;
   }
 
   public function jump($position) {
