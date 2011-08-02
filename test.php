@@ -42,4 +42,8 @@ assert('$br->read(8) == 0x00;');
 $br->jump(9);
 assert('$br->read_signed(8) == 33;');
 assert('$br->read_signed(8) == -113;');
+// Check we can split the hex into different chunks
+$br->jump(0);
+assert('$br->read_chunk(32)->ascii_hex == "CA509D93"');
+assert('$br->read(8) == 0x6B;');
 ?>

@@ -3,11 +3,11 @@ class BitRatchet {
   public $ascii_hex;
   private $current_position, $left_over, $left_over_bit_count;
 
-  function __construct($ascii) {
+  function __construct($ascii, $inital_left_over=0, $initial_left_over_bit_count=0) {
     $this->ascii_hex = strtoupper($ascii);
     $this->current_position = 0;
-    $this->left_over_bit_count = 0;
-    $this->left_over = 0;
+    $this->left_over_bit_count = $initial_left_over_bit_count;
+    $this->left_over = $initial_left_over;
   }
 
   public function jump($position) {
@@ -16,14 +16,18 @@ class BitRatchet {
     $this->left_over_bit_count = 0;
   }
 
-  public function round_to_multiple($x, $multiple) {
+  private function round_to_multiple($x, $multiple) {
     return ceil($x / $multiple) * $multiple;
   }
 
-  public function read($bits) {
+  private function bytes_needed($bits) {
+    return $this->round_to_multiple($bits - $this->left_over_bit_count, 8) / 8;
+  }
+
+  // Private method to do the work for the public methods
+  private function read_bits($bits) {
     // Count number of bytes to read
-    $bits_needed = $this->round_to_multiple($bits - $this->left_over_bit_count, 8);
-    $bytes_needed = $bits_needed / 8;
+    $bytes_needed = $this->bytes_needed($bits);
     // Make sure they're avaliable
     if (($bytes_needed * 2 + $this->current_position) > strlen($this->ascii_hex))
       throw new Exception('BitRatchet: read over end of ascii hex.');
@@ -33,7 +37,7 @@ class BitRatchet {
     $binary = hexdec($ascii);
     // If there are left over bits add 'em
     if ($this->left_over_bit_count) {
-      $binary = $binary | ($this->left_over << $bits_needed);
+      $binary = $binary | ($this->left_over << ($bytes_needed * 8));
     }
     // Now trim off any extra bits and save them for later
     $bits_read = ($bytes_needed * 8 + $this->left_over_bit_count);
@@ -50,7 +54,22 @@ class BitRatchet {
     // Increment our position
     $this->current_position += $bytes_needed * 2;
     // Phew, now return what we've read!
+    return array($binary, $ascii);
+  }
+
+  public function read($bits) {
+    list($binary, $ascii) = $this->read_bits($bits);
     return $binary;
+  }
+
+  public function read_chunk($bits) {
+    // Record left over bits
+    $old_left_over = $this->left_over;
+    $old_left_over_bit_count = $this->left_over_bit_count;
+    // Read bits
+    list($binary, $ascii) = $this->read_bits($bits);
+    // Create new bit-ratchet for the chunk and return
+    return new BitRatchet($ascii, $old_left_over, $old_left_over_bit_count);
   }
 
   public function skip($bits) {

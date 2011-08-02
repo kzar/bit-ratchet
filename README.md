@@ -10,16 +10,25 @@ Usage
 
       require_once('bit_ratchet.php');
       $br = new BitRatchet("FF00FF");
-      print "FF is " . $br->read(8) . "\n";
-      print "00 is " . $br->read(8) . "\n";
-      print "F is " . $br->read(4) . "\n";
-      print "F is " . $br->read(4) . "\n";
-      // Jump back to the start
-      $br->jump(0);
-      // Read FF as a signed number
-      print "FF is -127: " . $br->read_signed(8) . "\n";
-      // Print the last two bytes as hex
-      print($br->read_ascii(2));
+      print $br->read(8); // Gives you 0xFF;
+      print $br->read(8); // Gives you 0x00;
+      print $br->read(4); // Gives you 0xF;
+      print $br->read(4); // Gives you 0xF;
+      $br->jump(0); // Jump back to the start
+      print $br->read_signed(8); // Gives you -127 (0xFF signed)
+      print($br->read_ascii(2)); // Gives you "00"
+      $br_chunk = $br->read_chunk(8); // Gives you a new bit-ratchet object of last 8 bits
+      $br_read(8); // Throws exception, we've read off the end!
+
+Methods / variables
+-------------------
+
+  - `read($bits)` Read given number of bits and returned unsigned number.
+  - `read_signed($bits)` Read given number of bits and returned signed number.
+  - `read_ascii($bytes)` Read given number of bytes and returns hex. (Jumps to closest byte!)
+  - `skip($bits)` Skip over given number of bits.
+  - `jump($position)` Jump to given position, in bytes.
+  - `ascii_hex` Access the full ascii_hex string directly.
 
 Licence
 -------
