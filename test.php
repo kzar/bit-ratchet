@@ -22,7 +22,7 @@ assert('$br->read(4) == 0xB;');
 // We can read another byte
 assert('$br->read(8) == 0x01;');
 // Skip two empty bytes
-$br->read(16);
+$br->skip(16);
 // We can read 3 bits and then a byte
 assert('$br->read(3) == 0x2;');
 assert('$br->read(8) == 0x51;');

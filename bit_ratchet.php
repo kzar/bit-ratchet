@@ -51,6 +51,11 @@ class BitRatchet {
     return $binary;
   }
 
+  public function skip($bits) {
+    // Read the bits but don't return anything
+    $this->read($bits);
+  }
+
   public function read_signed($bits) {
     // Read the bits
     $unsigned = $this->read($bits);
@@ -71,6 +76,9 @@ class BitRatchet {
     $ascii = substr($this->ascii_hex, $this->current_position, $bytes * 2);
     // Increment our position
     $this->current_position += $bytes * 2;
+    // Clear record of the left over bits, we've skipped over them by now
+    $this->left_over_bit_count = 0;
+    $this->left_over = 0;
     // Finally return ascii hex
     return $ascii;
   }
