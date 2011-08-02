@@ -1,7 +1,7 @@
 <?php
 class BitRatchet {
-  private $current_position, $ascii_hex;
-  private $left_over, $left_over_bit_count;
+  public $ascii_hex;
+  private $current_position, $left_over, $left_over_bit_count;
 
   function __construct($ascii) {
     $this->ascii_hex = strtoupper($ascii);
