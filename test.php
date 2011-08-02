@@ -4,6 +4,8 @@ require_once('bit_ratchet.php');
 $hex = "ca509d936b0100004a21F1";
 $br = new BitRatchet($hex);
 
+// Make sure the ascii_hex is set right
+assert('strtoupper($hex) == $br->ascii_hex;');
 // Test we can read first 8 bits
 assert('$br->read(8) == 0xCA;');
 // Test we can read the next 8 bits
