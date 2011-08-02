@@ -3,7 +3,7 @@ class BitRatchet {
   public $ascii_hex;
   private $current_position, $left_over, $left_over_bit_count;
 
-  function __construct($ascii, $inital_left_over=0, $initial_left_over_bit_count=0) {
+  function __construct($ascii, $initial_left_over=0, $initial_left_over_bit_count=0) {
     $this->ascii_hex = strtoupper($ascii);
     $this->current_position = 0;
     $this->left_over_bit_count = $initial_left_over_bit_count;
