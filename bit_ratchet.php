@@ -1,4 +1,6 @@
 <?php
+class BitRatchetException extends Exception { }
+
 class BitRatchet {
   public $ascii_hex;
   private $current_position, $left_over, $left_over_bit_count;
@@ -30,7 +32,7 @@ class BitRatchet {
     $bytes_needed = $this->bytes_needed($bits);
     // Make sure they're avaliable
     if (($bytes_needed * 2 + $this->current_position) > strlen($this->ascii_hex))
-      throw new Exception('BitRatchet: read over end of ascii hex.');
+      throw new BitRatchetException('Read over end of ascii hex.');
     // If so read them
     $ascii = substr($this->ascii_hex,
                     $this->current_position, $bytes_needed * 2);
@@ -92,7 +94,7 @@ class BitRatchet {
   public function read_ascii($bytes) {
     // Make sure they're avaliable
     if (($bytes * 2 + $this->current_position) > strlen($this->ascii_hex))
-      throw new Exception('BitRatchet: read over end of ascii hex.');
+      throw new BitRatchetException('Read over end of ascii hex.');
     // If so read them
     $ascii = substr($this->ascii_hex, $this->current_position, $bytes * 2);
     // Increment our position
